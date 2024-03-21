@@ -13,14 +13,14 @@ int main(void)
 	RCC->AHB1ENR |= 1<<3|1;
 
 	// Orange LED (Port D13) auf Ausgang schalten
-	GPIOD->MODER |= 0x04000000; //1<<26;
-	GPIOD->ODR |= 1<<13;
+	GPIOD->MODER |= 0x05000000; //1<<26;
+	GPIOD->ODR |= 1<<12;
 	
 	while( 1 ) {
 		if( (GPIOA->IDR & 1) != 0) { 
-			GPIOD->ODR |= 1<<13; 
+			GPIOD->ODR |= 1<<12; 
 		} else { 
-			GPIOD->ODR &= 0xDFFF; // ~(1<<13); 
+			GPIOD->ODR &= 0xEFFF; // ~(1<<13); 
 		}
 	}
 		
