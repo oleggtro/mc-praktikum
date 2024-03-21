@@ -2,6 +2,12 @@
 #include "_mcpr_stm32f407.h"
 #include <inttypes.h>
 
+void u_delay(uint32_t secs);
+
+void u_delay(uint32_t secs) {
+	for (uint32_t x = 0; x < secs*5000000; x++);
+}
+
 
 int main(void)
 {
@@ -18,12 +24,13 @@ int main(void)
 	
 	while( 1 ) {
 		
+		if( (GPIOA->IDR & 1) != 0) { 
 			GPIOD->ODR |= 1<<12; 
-			for (uint32_t x = 0; x < 5000000; x++);
+			u_delay(1);
 			GPIOD->ODR &= 0xEFFF; // ~(1<<13); 
-			for (uint32_t y = 0; y < 5000000; y++);
+			u_delay(1);
+		} else { 
+			GPIOD->ODR &= 0xEFFF; // ~(1<<13); 
 		}
-	
-		
 }
-
+}
