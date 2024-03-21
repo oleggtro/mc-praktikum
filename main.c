@@ -17,12 +17,13 @@ int main(void)
 	GPIOD->ODR |= 1<<12;
 	
 	while( 1 ) {
-		if( (GPIOA->IDR & 1) != 0) { 
+		
 			GPIOD->ODR |= 1<<12; 
-		} else { 
+			for (uint32_t x = 0; x < 5000000; x++);
 			GPIOD->ODR &= 0xEFFF; // ~(1<<13); 
+			for (uint32_t y = 0; y < 5000000; y++);
 		}
-	}
+	
 		
 }
 
