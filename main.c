@@ -5,7 +5,7 @@
 void u_delay(uint32_t secs);
 
 void u_delay(uint32_t secs) {
-	for (uint32_t x = 0; x < secs*5000000; x++);
+	for (uint32_t x = 0; x < secs*3150000; x++);
 }
 
 
