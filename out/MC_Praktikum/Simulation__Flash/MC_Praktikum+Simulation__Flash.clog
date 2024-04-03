@@ -1,0 +1,17 @@
+# CMSIS Build Audit File generated on 2024-04-03T15:31:19
+
+# Project Description File: /Users/oledonnermeyer/Documents/coding/mc-praktikum/MC_Praktikum+Simulation__Flash.cprj
+
+# Toolchain Configuration File: /Users/oledonnermeyer/.vcpkg/artifacts/2139c4c6/tools.open.cmsis.pack.cmsis.toolbox/2.2.1/etc/AC6.6.18.0.cmake
+
+# Package: ARM::CMSIS@5.9.0
+  Location: /Users/oledonnermeyer/.cache/arm/packs/ARM/CMSIS/5.9.0/
+
+  * Component: ARM::CMSIS:CORE@5.6.0
+
+# Package: Keil::STM32F4xx_DFP@2.17.1
+  Location: /Users/oledonnermeyer/.cache/arm/packs/Keil/STM32F4xx_DFP/2.17.1/
+
+  * Component: Keil::Device:Startup@2.6.3
+    - ConfigFile: /Users/oledonnermeyer/Documents/coding/mc-praktikum/RTE/Device/STM32F407VGTx/startup_stm32f407xx.s:2.6.8
+    - ConfigFile: /Users/oledonnermeyer/Documents/coding/mc-praktikum/RTE/Device/STM32F407VGTx/system_stm32f4xx.c:2.6.8

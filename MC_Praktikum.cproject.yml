@@ -1,0 +1,136 @@
+project:
+  packs:
+    - pack: Keil::STM32F4xx_DFP
+    - pack: ARM::CMSIS@5.9.0
+  setups:
+    - setup: Options for Discocery_Board__Flash
+      for-context: +Discocery_Board__Flash
+      processor:
+        fpu: sp
+      debug: "on"
+      misc:
+        - C:
+            - -std=c99
+          C-CPP:
+            - -fno-rtti
+            - -funsigned-char
+            - -ffunction-sections
+            - -Weverything
+            - -Wno-packed
+            - -Wno-reserved-id-macro
+            - -Wno-unused-macros
+            - -Wno-documentation-unknown-command
+            - -Wno-documentation
+            - -Wno-license-management
+            - -Wno-parentheses-equality
+          CPP:
+            - -xc++
+            - -std=c++11
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --strict
+            - --summary_stderr
+            - --info summarysizes
+    - setup: Options for Discovery_Board__RAM
+      for-context: +Discovery_Board__RAM
+      processor:
+        fpu: sp
+      debug: "on"
+      define:
+        - VECT_TAB_SRAM
+      misc:
+        - C:
+            - -std=c99
+          C-CPP:
+            - -fno-rtti
+            - -funsigned-char
+            - -ffunction-sections
+            - -Weverything
+            - -Wno-packed
+            - -Wno-reserved-id-macro
+            - -Wno-unused-macros
+            - -Wno-documentation-unknown-command
+            - -Wno-documentation
+            - -Wno-license-management
+            - -Wno-parentheses-equality
+          CPP:
+            - -xc++
+            - -std=c++11
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --strict
+            - --summary_stderr
+            - --info summarysizes
+    - setup: Options for Simulation__Flash
+      for-context: +Simulation__Flash
+      processor:
+        fpu: sp
+      debug: "on"
+      define:
+        - HSI_VALUE: "168000000"
+      misc:
+        - C:
+            - -std=c99
+          C-CPP:
+            - -fno-rtti
+            - -funsigned-char
+            - -ffunction-sections
+            - -Weverything
+            - -Wno-packed
+            - -Wno-reserved-id-macro
+            - -Wno-unused-macros
+            - -Wno-documentation-unknown-command
+            - -Wno-documentation
+            - -Wno-license-management
+            - -Wno-parentheses-equality
+          CPP:
+            - -xc++
+            - -std=c++11
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --strict
+            - --summary_stderr
+            - --info summarysizes
+  linker:
+    - script: MC_Praktikum_Discocery_Board__Flash.sct
+      for-context: +Discocery_Board__Flash
+    - script: MC_Praktikum_Discovery_Board__RAM.sct
+      for-context: +Discovery_Board__RAM
+  groups:
+    - group: C Sources
+      files:
+        - file: main.c
+        - file: _mcpr_stm32f407.c
+  components:
+    - component: ARM::CMSIS:CORE
+    - component: Keil::Device:Startup

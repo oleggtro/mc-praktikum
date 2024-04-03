@@ -1,0 +1,15 @@
+build-idx:
+  generated-by: csolution version 2.2.1
+  csolution: MC_Praktikum.csolution.yml
+  cprojects:
+    - cproject: MC_Praktikum.cproject.yml
+  cbuilds:
+    - cbuild: MC_Praktikum+Discocery_Board__Flash.cbuild.yml
+      project: MC_Praktikum
+      configuration: +Discocery_Board__Flash
+    - cbuild: MC_Praktikum+Discovery_Board__RAM.cbuild.yml
+      project: MC_Praktikum
+      configuration: +Discovery_Board__RAM
+    - cbuild: MC_Praktikum+Simulation__Flash.cbuild.yml
+      project: MC_Praktikum
+      configuration: +Simulation__Flash

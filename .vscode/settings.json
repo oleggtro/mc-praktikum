@@ -1,0 +1,21 @@
+{
+    "cmsis-csolution.actions": [
+        {
+            "path": "MC_Praktikum.csolution.yml",
+            "target": "Simulation__Flash",
+            "config": {
+                "run": "virtual-hardware.run: Run Program",
+                "debug": "Arm Debugger"
+            },
+            "projects": [
+                {
+                    "path": "MC_Praktikum.cproject.yml",
+                    "config": {
+                        "run": "Flash Device",
+                        "debug": "Arm Debugger"
+                    }
+                }
+            ]
+        }
+    ]
+}
