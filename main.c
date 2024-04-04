@@ -48,21 +48,19 @@ void LEDs_InitPorts(void)
 // write data to register and activate LED running light
 void LEDs_Write(uint16_t data)
 {
+    // PD11 to high: select ic for LEDs
+    GPIOD->ODR |= (1 << 11);
+	
     // PD7 to low to address external hardware
     GPIOD->ODR &= ~(1 << 7);
 
-    // PD11 to high: select ic for LEDs
-    GPIOD->ODR |= (1 << 11);
 
     // write 16bit word to lcd
     LCD_Output16BitWord(data);
 
-    // PD5 to high to freeze data
-    GPIOD->ODR |= (1 << 5);
-    u_delay(100);
     // PD5 to low + then high to save data
     GPIOD->ODR &= ~(1 << 5);
-    u_delay(10);
+	
     GPIOD->ODR |= (1 << 5);
 
     // PD7 to high to deactivate external hardware

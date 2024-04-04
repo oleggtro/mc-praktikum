@@ -6,13 +6,12 @@ Section Cross References
 
     main.o(.ARM.exidx.text.LEDs_InitPorts) refers to main.o(.text.LEDs_InitPorts) for [Anonymous Symbol]
     main.o(.text.LEDs_Write) refers to main.o(.text.LCD_Output16BitWord) for LCD_Output16BitWord
-    main.o(.text.LEDs_Write) refers to main.o(.text.u_delay) for u_delay
     main.o(.ARM.exidx.text.LEDs_Write) refers to main.o(.text.LEDs_Write) for [Anonymous Symbol]
     main.o(.ARM.exidx.text.LCD_Output16BitWord) refers to main.o(.text.LCD_Output16BitWord) for [Anonymous Symbol]
-    main.o(.ARM.exidx.text.u_delay) refers to main.o(.text.u_delay) for [Anonymous Symbol]
     main.o(.text.Run_LEDs) refers to main.o(.text.LEDs_Write) for LEDs_Write
     main.o(.text.Run_LEDs) refers to main.o(.text.u_delay) for u_delay
     main.o(.ARM.exidx.text.Run_LEDs) refers to main.o(.text.Run_LEDs) for [Anonymous Symbol]
+    main.o(.ARM.exidx.text.u_delay) refers to main.o(.text.u_delay) for [Anonymous Symbol]
     main.o(.text.main) refers to _mcpr_stm32f407.o(.text.mcpr_SetSystemCoreClock) for mcpr_SetSystemCoreClock
     main.o(.text.main) refers to main.o(.text.LEDs_InitPorts) for LEDs_InitPorts
     main.o(.text.main) refers to main.o(.text.Run_LEDs) for Run_LEDs
@@ -162,8 +161,8 @@ Removing Unused input sections from the image.
     Removing main.o(.ARM.exidx.text.LEDs_InitPorts), (8 bytes).
     Removing main.o(.ARM.exidx.text.LEDs_Write), (8 bytes).
     Removing main.o(.ARM.exidx.text.LCD_Output16BitWord), (8 bytes).
-    Removing main.o(.ARM.exidx.text.u_delay), (8 bytes).
     Removing main.o(.ARM.exidx.text.Run_LEDs), (8 bytes).
+    Removing main.o(.ARM.exidx.text.u_delay), (8 bytes).
     Removing main.o(.ARM.exidx.text.main), (8 bytes).
     Removing main.o(.rodata.delay), (2 bytes).
     Removing main.o(.ARM.use_no_argv), (4 bytes).
@@ -309,16 +308,16 @@ Image Symbol Table
     [Anonymous Symbol]                       0x20000310   Section        0  main.o(.text.LCD_Output16BitWord)
     [Anonymous Symbol]                       0x20000380   Section        0  main.o(.text.LEDs_InitPorts)
     [Anonymous Symbol]                       0x200003dc   Section        0  main.o(.text.LEDs_Write)
-    [Anonymous Symbol]                       0x2000043c   Section        0  main.o(.text.Run_LEDs)
-    [Anonymous Symbol]                       0x200004b0   Section        0  system_stm32f4xx.o(.text.SystemCoreClockUpdate)
-    [Anonymous Symbol]                       0x200005e0   Section        0  system_stm32f4xx.o(.text.SystemInit)
-    [Anonymous Symbol]                       0x200005f4   Section        0  main.o(.text.main)
-    mcpr_SetSysClock                         0x20000629   Thumb Code   326  _mcpr_stm32f407.o(.text.mcpr_SetSysClock)
-    [Anonymous Symbol]                       0x20000628   Section        0  _mcpr_stm32f407.o(.text.mcpr_SetSysClock)
-    [Anonymous Symbol]                       0x20000770   Section        0  _mcpr_stm32f407.o(.text.mcpr_SetSystemCoreClock)
-    [Anonymous Symbol]                       0x2000077c   Section        0  main.o(.text.u_delay)
-    $v0                                      0x200007a4   Number         0  fpinit.o(x$fpl$fpinit)
-    x$fpl$fpinit                             0x200007a4   Section       26  fpinit.o(x$fpl$fpinit)
+    [Anonymous Symbol]                       0x20000424   Section        0  main.o(.text.Run_LEDs)
+    [Anonymous Symbol]                       0x20000498   Section        0  system_stm32f4xx.o(.text.SystemCoreClockUpdate)
+    [Anonymous Symbol]                       0x200005c8   Section        0  system_stm32f4xx.o(.text.SystemInit)
+    [Anonymous Symbol]                       0x200005dc   Section        0  main.o(.text.main)
+    mcpr_SetSysClock                         0x20000611   Thumb Code   326  _mcpr_stm32f407.o(.text.mcpr_SetSysClock)
+    [Anonymous Symbol]                       0x20000610   Section        0  _mcpr_stm32f407.o(.text.mcpr_SetSysClock)
+    [Anonymous Symbol]                       0x20000758   Section        0  _mcpr_stm32f407.o(.text.mcpr_SetSystemCoreClock)
+    [Anonymous Symbol]                       0x20000764   Section        0  main.o(.text.u_delay)
+    $v0                                      0x2000078c   Number         0  fpinit.o(x$fpl$fpinit)
+    x$fpl$fpinit                             0x2000078c   Section       26  fpinit.o(x$fpl$fpinit)
     .bss                                     0x20010008   Section       96  libspace.o(.bss)
     Heap_Mem                                 0x20010068   Data         512  startup_stm32f407xx.o(HEAP)
     HEAP                                     0x20010068   Section      512  startup_stm32f407xx.o(HEAP)
@@ -519,19 +518,19 @@ Image Symbol Table
     __semihosting_library_function           0x2000030f   Thumb Code     0  indicate_semi.o(.text)
     LCD_Output16BitWord                      0x20000311   Thumb Code   112  main.o(.text.LCD_Output16BitWord)
     LEDs_InitPorts                           0x20000381   Thumb Code    90  main.o(.text.LEDs_InitPorts)
-    LEDs_Write                               0x200003dd   Thumb Code    96  main.o(.text.LEDs_Write)
-    Run_LEDs                                 0x2000043d   Thumb Code   114  main.o(.text.Run_LEDs)
-    SystemCoreClockUpdate                    0x200004b1   Thumb Code   302  system_stm32f4xx.o(.text.SystemCoreClockUpdate)
-    SystemInit                               0x200005e1   Thumb Code    18  system_stm32f4xx.o(.text.SystemInit)
-    main                                     0x200005f5   Thumb Code    50  main.o(.text.main)
-    mcpr_SetSystemCoreClock                  0x20000771   Thumb Code    12  _mcpr_stm32f407.o(.text.mcpr_SetSystemCoreClock)
-    u_delay                                  0x2000077d   Thumb Code    40  main.o(.text.u_delay)
-    _fp_init                                 0x200007a5   Thumb Code    26  fpinit.o(x$fpl$fpinit)
-    __fplib_config_fpu_vfp                   0x200007bd   Thumb Code     0  fpinit.o(x$fpl$fpinit)
-    __fplib_config_pureend_doubles           0x200007bd   Thumb Code     0  fpinit.o(x$fpl$fpinit)
-    AHBPrescTable                            0x200007be   Data          16  system_stm32f4xx.o(.rodata.AHBPrescTable)
-    Region$$Table$$Base                      0x200007d0   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x200007f0   Number         0  anon$$obj.o(Region$$Table)
+    LEDs_Write                               0x200003dd   Thumb Code    72  main.o(.text.LEDs_Write)
+    Run_LEDs                                 0x20000425   Thumb Code   114  main.o(.text.Run_LEDs)
+    SystemCoreClockUpdate                    0x20000499   Thumb Code   302  system_stm32f4xx.o(.text.SystemCoreClockUpdate)
+    SystemInit                               0x200005c9   Thumb Code    18  system_stm32f4xx.o(.text.SystemInit)
+    main                                     0x200005dd   Thumb Code    50  main.o(.text.main)
+    mcpr_SetSystemCoreClock                  0x20000759   Thumb Code    12  _mcpr_stm32f407.o(.text.mcpr_SetSystemCoreClock)
+    u_delay                                  0x20000765   Thumb Code    40  main.o(.text.u_delay)
+    _fp_init                                 0x2000078d   Thumb Code    26  fpinit.o(x$fpl$fpinit)
+    __fplib_config_fpu_vfp                   0x200007a5   Thumb Code     0  fpinit.o(x$fpl$fpinit)
+    __fplib_config_pureend_doubles           0x200007a5   Thumb Code     0  fpinit.o(x$fpl$fpinit)
+    AHBPrescTable                            0x200007a6   Data          16  system_stm32f4xx.o(.rodata.AHBPrescTable)
+    Region$$Table$$Base                      0x200007b8   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x200007d8   Number         0  anon$$obj.o(Region$$Table)
     SystemCoreClock                          0x20010000   Data           4  system_stm32f4xx.o(.data.SystemCoreClock)
     __libspace_start                         0x20010008   Data          96  libspace.o(.bss)
     __temporary_stack_top$libspace           0x20010068   Data           0  libspace.o(.bss)
@@ -544,9 +543,9 @@ Memory Map of the image
 
   Image Entry point : 0x20000189
 
-  Load Region LR_IROM1 (Base: 0x20000000, Size: 0x000007f8, Max: 0x00010000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x20000000, Size: 0x000007e0, Max: 0x00010000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x20000000, Load base: 0x20000000, Size: 0x000007f0, Max: 0x00010000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x20000000, Load base: 0x20000000, Size: 0x000007d8, Max: 0x00010000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -614,31 +613,31 @@ Memory Map of the image
     0x20000310   0x20000310   0x00000070   Code   RO            6    .text.LCD_Output16BitWord  main.o
     0x20000380   0x20000380   0x0000005a   Code   RO            2    .text.LEDs_InitPorts  main.o
     0x200003da   0x200003da   0x00000002   PAD
-    0x200003dc   0x200003dc   0x00000060   Code   RO            4    .text.LEDs_Write    main.o
-    0x2000043c   0x2000043c   0x00000072   Code   RO           10    .text.Run_LEDs      main.o
-    0x200004ae   0x200004ae   0x00000002   PAD
-    0x200004b0   0x200004b0   0x0000012e   Code   RO           53    .text.SystemCoreClockUpdate  system_stm32f4xx.o
-    0x200005de   0x200005de   0x00000002   PAD
-    0x200005e0   0x200005e0   0x00000012   Code   RO           51    .text.SystemInit    system_stm32f4xx.o
-    0x200005f2   0x200005f2   0x00000002   PAD
-    0x200005f4   0x200005f4   0x00000032   Code   RO           12    .text.main          main.o
-    0x20000626   0x20000626   0x00000002   PAD
-    0x20000628   0x20000628   0x00000146   Code   RO           25    .text.mcpr_SetSysClock  _mcpr_stm32f407.o
-    0x2000076e   0x2000076e   0x00000002   PAD
-    0x20000770   0x20000770   0x0000000c   Code   RO           23    .text.mcpr_SetSystemCoreClock  _mcpr_stm32f407.o
-    0x2000077c   0x2000077c   0x00000028   Code   RO            8    .text.u_delay       main.o
-    0x200007a4   0x200007a4   0x0000001a   Code   RO          157    x$fpl$fpinit        fz_wm.l(fpinit.o)
-    0x200007be   0x200007be   0x00000010   Data   RO           56    .rodata.AHBPrescTable  system_stm32f4xx.o
-    0x200007ce   0x200007ce   0x00000002   PAD
-    0x200007d0   0x200007d0   0x00000020   Data   RO          232    Region$$Table       anon$$obj.o
+    0x200003dc   0x200003dc   0x00000048   Code   RO            4    .text.LEDs_Write    main.o
+    0x20000424   0x20000424   0x00000072   Code   RO            8    .text.Run_LEDs      main.o
+    0x20000496   0x20000496   0x00000002   PAD
+    0x20000498   0x20000498   0x0000012e   Code   RO           53    .text.SystemCoreClockUpdate  system_stm32f4xx.o
+    0x200005c6   0x200005c6   0x00000002   PAD
+    0x200005c8   0x200005c8   0x00000012   Code   RO           51    .text.SystemInit    system_stm32f4xx.o
+    0x200005da   0x200005da   0x00000002   PAD
+    0x200005dc   0x200005dc   0x00000032   Code   RO           12    .text.main          main.o
+    0x2000060e   0x2000060e   0x00000002   PAD
+    0x20000610   0x20000610   0x00000146   Code   RO           25    .text.mcpr_SetSysClock  _mcpr_stm32f407.o
+    0x20000756   0x20000756   0x00000002   PAD
+    0x20000758   0x20000758   0x0000000c   Code   RO           23    .text.mcpr_SetSystemCoreClock  _mcpr_stm32f407.o
+    0x20000764   0x20000764   0x00000028   Code   RO           10    .text.u_delay       main.o
+    0x2000078c   0x2000078c   0x0000001a   Code   RO          157    x$fpl$fpinit        fz_wm.l(fpinit.o)
+    0x200007a6   0x200007a6   0x00000010   Data   RO           56    .rodata.AHBPrescTable  system_stm32f4xx.o
+    0x200007b6   0x200007b6   0x00000002   PAD
+    0x200007b8   0x200007b8   0x00000020   Data   RO          232    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20010000, Load base: 0x200007f0, Size: 0x00000668, Max: 0x00010000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20010000, Load base: 0x200007d8, Size: 0x00000668, Max: 0x00010000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20010000   0x200007f0   0x00000004   Data   RW           55    .data.SystemCoreClock  system_stm32f4xx.o
-    0x20010004   0x200007f4   0x00000004   PAD
+    0x20010000   0x200007d8   0x00000004   Data   RW           55    .data.SystemCoreClock  system_stm32f4xx.o
+    0x20010004   0x200007dc   0x00000004   PAD
     0x20010008        -       0x00000060   Zero   RW           97    .bss                c_wu.l(libspace.o)
     0x20010068        -       0x00000200   Zero   RW           42    HEAP                startup_stm32f407xx.o
     0x20010268        -       0x00000400   Zero   RW           41    STACK               startup_stm32f407xx.o
@@ -652,12 +651,12 @@ Image component sizes
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
        338          0          0          0          0       5591   _mcpr_stm32f407.o
-       502          0          0          0          0       2590   main.o
+       478          0          0          0          0       2579   main.o
         64         26        392          0       1536        884   startup_stm32f407xx.o
        320          0         16          4          0       2578   system_stm32f4xx.o
 
     ----------------------------------------------------------------------
-      1236         26        442          4       1540      11643   Object Totals
+      1212         26        442          4       1540      11632   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         12          0          2          0          4          0   (incl. Padding)
 
@@ -708,15 +707,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      1590         42        442          4       1636      12215   Grand Totals
-      1590         42        442          4       1636      12215   ELF Image Totals
-      1590         42        442          4          0          0   ROM Totals
+      1566         42        442          4       1636      12204   Grand Totals
+      1566         42        442          4       1636      12204   ELF Image Totals
+      1566         42        442          4          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 2032 (   1.98kB)
+    Total RO  Size (Code + RO Data)                 2008 (   1.96kB)
     Total RW  Size (RW Data + ZI Data)              1640 (   1.60kB)
-    Total ROM Size (Code + RO Data + RW Data)       2036 (   1.99kB)
+    Total ROM Size (Code + RO Data + RW Data)       2012 (   1.96kB)
 
 ==============================================================================
 

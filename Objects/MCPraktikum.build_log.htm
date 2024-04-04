@@ -28,58 +28,58 @@ Project File Date:  04/04/2024
 *** Using Compiler 'V6.21', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Discovery Board - RAM'
 assembling startup_stm32f407xx.s...
-compiling _mcpr_stm32f407.c...
 main.c(14): warning: no previous extern declaration for non-static variable 'delay' [-Wmissing-variable-declarations]
    14 | const uint16_t delay = 50;
       |                ^
 main.c(14): note: declare 'static' if the variable is not intended to be used outside of this translation unit
    14 | const uint16_t delay = 50;
       |       ^
-main.c(52): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
-   52 |     GPIOD->ODR &= ~(1 << 7);
+main.c(55): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
+   55 |     GPIOD->ODR &= ~(1 << 7);
       |                ~~ ^~~~~~~~~
-main.c(65): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
-   65 |     GPIOD->ODR &= ~(1 << 5);
+main.c(62): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
+   62 |     GPIOD->ODR &= ~(1 << 5);
       |                ~~ ^~~~~~~~~
-main.c(79): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
-   79 |     GPIOD->ODR = (GPIOD->ODR & ~(0x3)) | ((data & 0x000C) >> 2);
+main.c(76): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
+   76 |     GPIOD->ODR = (GPIOD->ODR & ~(0x3)) | ((data & 0x000C) >> 2);
       |                              ~ ^~~~~~
-main.c(82): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
-   82 |     GPIOE->ODR = (GPIOE->ODR & ~(0x1FF << 7)) | ((data & 0x1FF0) << 3);
+main.c(79): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
+   79 |     GPIOE->ODR = (GPIOE->ODR & ~(0x1FF << 7)) | ((data & 0x1FF0) << 3);
       |                                               ~  ~~~~~~~~~~~~~~~~^~~~
-main.c(82): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
-   82 |     GPIOE->ODR = (GPIOE->ODR & ~(0x1FF << 7)) | ((data & 0x1FF0) << 3);
+main.c(79): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
+   79 |     GPIOE->ODR = (GPIOE->ODR & ~(0x1FF << 7)) | ((data & 0x1FF0) << 3);
       |                              ~ ^~~~~~~~~~~~~
-main.c(85): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
-   85 |     GPIOD->ODR = (GPIOD->ODR & ~(0x7 << 8)) | ((data & 0xE000) >> 5);
+main.c(82): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
+   82 |     GPIOD->ODR = (GPIOD->ODR & ~(0x7 << 8)) | ((data & 0xE000) >> 5);
       |                              ~ ^~~~~~~~~~~
-main.c(88): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
-   88 |     GPIOD->ODR = (GPIOD->ODR & ~(0x3 << 14)) | ((data & 0x0003) << 14); 
+main.c(85): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
+   85 |     GPIOD->ODR = (GPIOD->ODR & ~(0x3 << 14)) | ((data & 0x0003) << 14); 
       |                                              ~  ~~~~~~~~~~~~~~~~^~~~~
-main.c(88): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
-   88 |     GPIOD->ODR = (GPIOD->ODR & ~(0x3 << 14)) | ((data & 0x0003) << 14); 
+main.c(85): warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [-Wsign-conversion]
+   85 |     GPIOD->ODR = (GPIOD->ODR & ~(0x3 << 14)) | ((data & 0x0003) << 14); 
       |                              ~ ^~~~~~~~~~~~
-main.c(97): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
-   97 |         LEDs_Write(1 << i);  
+main.c(94): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
+   94 |         LEDs_Write(1 << i);  
       |         ~~~~~~~~~~ ~~^~~~
-main.c(102): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
-  102 |         LEDs_Write(~(1 << i)); 
+main.c(99): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
+   99 |         LEDs_Write(~(1 << i)); 
       |         ~~~~~~~~~~ ^~~~~~~~~
-main.c(115): warning: unused variable 'i' [-Wunused-variable]
-  115 |         uint32_t i = 0;
+main.c(112): warning: unused variable 'i' [-Wunused-variable]
+  112 |         uint32_t i = 0;
       |                  ^
-main.c(134): warning: 'return' will never be executed [-Wunreachable-code-return]
-  134 |     return 0;
+main.c(131): warning: 'return' will never be executed [-Wunreachable-code-return]
+  131 |     return 0;
       |            ^
 13 warnings generated.
 compiling main.c...
+compiling _mcpr_stm32f407.c...
 RTE/Device/STM32F407VGTx/system_stm32f4xx.c(263): warning: unsafe buffer access [-Wunsafe-buffer-usage]
   263 |   tmp = AHBPrescTable[((RCC->CFGR & RCC_CFGR_HPRE) >> 4)];
       |         ^~~~~~~~~~~~~
 1 warning generated.
 compiling system_stm32f4xx.c...
 linking...
-Program Size: Code=1590 RO-data=442 RW-data=4 ZI-data=1636  
+Program Size: Code=1566 RO-data=442 RW-data=4 ZI-data=1636  
 ".\Objects\MCPraktikum.axf" - 0 Error(s), 14 Warning(s).
 
 <h2>Software Packages used:</h2>
