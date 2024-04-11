@@ -1,6 +1,7 @@
 --cpu=Cortex-M4.fp.sp
 ".\objects\main.o"
 ".\objects\_mcpr_stm32f407.o"
+".\display.o"
 ".\objects\startup_stm32f407xx.o"
 ".\objects\system_stm32f4xx.o"
 --strict --scatter ".\Objects\MCPraktikum.sct"

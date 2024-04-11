@@ -25,13 +25,15 @@ void LEDs_Write (uint16_t data);
 void Run_LEDs (void);
 void Timer_init(void);
 void wait_ms(uint16_t ms);
+uint8_t switch_int(int i);
+void TIM7_IRQHandler(void);
 
 
 uint32_t ms_counter;
 uint32_t ms_since_last_press;
 uint16_t ms_led_counter;
 uint8_t led_status;
-char disp_sec;
+char disp_sec[5];
 
 
 
@@ -40,22 +42,28 @@ void LEDs_InitPorts(void)
 
 {
     //Turn on peripheral GPIOD and GPIOE 
-    RCC->AHB1ENR |= 1<<3| 1<<4| 1;
+    RCC->AHB1ENR |=  1<<3| 1<<4| 1;
 
+		RCC->APB1ENR |= 1<<5;
+	
     // GPIOD Konfiguration for LED selection and write signals
     // configure PD7, PD11, PD5 as output
     GPIOD->MODER |= (1 << (7 * 2)) | (1 << (5 * 2)) | (1 << (11 * 2));
 
 
     // orange LED (D13) set output
-    GPIOD->MODER |= (1 << (12*2)) | (1 << (13*2)); 
-    GPIOD->ODR |= 1<<12 | 1<<13;
+    GPIOD->MODER |= (1 << (12*2)) | (1 << (13*2)) | (1 << (11*2)); 
+    //GPIOD->ODR |= 1<<12 | 1<<13 | 1<<11;
  
     return;
 }
 
-void TIM7_IRQHandler()
+void TIM7_IRQHandler(void)
 {
+	
+	if(TIM7->SR & TIM_SR_UIF){
+		TIM7->SR &= ~TIM_SR_UIF;
+	}
     ms_counter += 1;
 }
 
@@ -63,11 +71,14 @@ void TIM7_IRQHandler()
 void Timer_init(void)
 {
     TIM7->CNT = 0;
-    TIM7->PSC = 20;
-    TIM7->ARR = 4000;
+    TIM7->PSC = 84-1;
+    TIM7->ARR = 1000-1;
     TIM7->CR1 |= 1;
     TIM7->DIER |= 1;
 
+	
+		NVIC_SetPriority(TIM7_IRQn, 1);
+		NVIC_EnableIRQ(TIM7_IRQn);
 
     return;
 }
@@ -148,55 +159,71 @@ void u_delay(uint32_t ms) {
 }
 
 
+uint8_t switch_int(int i) {
+	if (i == 1) {
+		return 0;
+	} else {
+		return 1;
+	}
+}
+
+
 int main(void)
 {
-    led_status = 1;
-	uint32_t i = 0;
+		ms_since_last_press = 12000;
+		ms_led_counter = 0;
+		led_status = LED_OFF;
+		uint32_t i = 0;
 	
-	mcpr_SetSystemCoreClock();
+		mcpr_SetSystemCoreClock();
 
     // initialize ports
-	//LEDs_InitPorts();
-
+		LEDs_InitPorts();
+		Timer_init();
 
     LCD_Init();
     // clear display with color red
     LCD_ClearDisplay(0xFE00);
 	
+	uint32_t tmp = ms_counter;
 	while( 1 ) {
+		
+		// check led status and activate / deactivate LED
+        
+				
         if( (GPIOA->IDR & 1) != 0) {
+					// turn on display		
+					GPIOD->ODR |= 1<<13;
             ms_since_last_press = 0;
-
-            if (ms_led_counter >= 1000) {
-            ms_led_counter = 0;
-            led_status = 1 - led_status;
-          }
-
+					
+					if (ms_led_counter >= 500) {
+						ms_led_counter = 0;
+						led_status = switch_int(led_status);
+					}
         }
-        
-        
-        if (ms_since_last_press < 10000) {
-            uint32_t x = (ms_since_last_press / 1000);
-            snprintf(&disp_sec, sizeof(disp_sec), "%u", x);
-            LCD_WriteString(10, 10, 0xFFFF, 0x0000, &disp_sec);
-            led_status = LED_ON;
-        } 
-
-
-        // check led status and activate / deactivate LED
+				
         if (led_status == LED_ON) {
             GPIOD->ODR |= 1<<12;
         } else {
-            GPIOD->ODR &= 0xEFFF;
+            GPIOD->ODR &= ~(1<<12);
         }
+        
+        if (ms_since_last_press < 10000) {
+            uint32_t x = (ms_since_last_press / 1000);
+            sprintf(&disp_sec, "%u", x);
+            LCD_WriteString(10, 10, 0xFFFF, 0x0000, &disp_sec);
+        } else {
+					LCD_ClearDisplay(0x0000);
+					GPIOD->ODR &= ~(1<<13); 
+				}
 
 
 
 
-
-        wait_ms(50);
-        ms_since_last_press += 50;
-        ms_led_counter += 50;
+				while(tmp + 50 > ms_counter){}
+					tmp+=50;
+        ms_since_last_press = ms_since_last_press + 50;
+        ms_led_counter = ms_led_counter + 50;
 
 		
         
