@@ -1,19 +1,38 @@
+#include "stm32f407xx.h"
 #include "stm32f4xx.h"
 #include "_mcpr_stm32f407.h"
 #include <inttypes.h>
+#include <stdint.h>
+#include <stdio.h>
+#include "display.h"
+#include <math.h>
 
 
 // switch modes between LEDs and LCD display
 #define run_mode 1
 #define show_mode 0
+
+#define LED_ON 1
+#define LED_OFF 0
+
 uint8_t mode = show_mode;
 
 //Forward declaration
-void u_delay(uint32_t usec);
+void u_delay(uint32_t ms);
 void LEDs_InitPorts (void);
 void LCD_Output16BitWord (uint16_t data);
 void LEDs_Write (uint16_t data);
 void Run_LEDs (void);
+void Timer_init(void);
+void wait_ms(uint16_t ms);
+
+
+uint32_t ms_counter;
+uint32_t ms_since_last_press;
+uint16_t ms_led_counter;
+uint8_t led_status;
+char disp_sec;
+
 
 
 //init ports
@@ -27,21 +46,31 @@ void LEDs_InitPorts(void)
     // configure PD7, PD11, PD5 as output
     GPIOD->MODER |= (1 << (7 * 2)) | (1 << (5 * 2)) | (1 << (11 * 2));
 
-    // ensure PD7, PD11 and PD5 are set to high initially
-    GPIOD->ODR |= (1 << 7) | (1 << 5) | (1 << 11) ;
 
     // orange LED (D13) set output
-    GPIOD->MODER |= 1 << (12*2); // equiv to 0x04000000
-    GPIOD->ODR |= 1<<12;
-
-    // Configure data lines
-    GPIOD->MODER |= (1 << (15*2))   | (1 << (9*2))  | (1 << (8*2)) | (1 << (10*2)) | (1 << (14*2))| (1 << (1*2)) | 1;
-    GPIOE->MODER |= (1 << (15*2)) | (1 << (14*2)) | (1 << (13*2)) | (1 << (12*2)) | (1 << (11*2)) | (1 << (10*2))
-                                  | (1 << (9*2))  | (1 << (8*2))  | (1 << (7*2));
+    GPIOD->MODER |= (1 << (12*2)) | (1 << (13*2)); 
+    GPIOD->ODR |= 1<<12 | 1<<13;
  
     return;
 }
 
+void TIM7_IRQHandler()
+{
+    ms_counter += 1;
+}
+
+
+void Timer_init(void)
+{
+    TIM7->CNT = 0;
+    TIM7->PSC = 20;
+    TIM7->ARR = 4000;
+    TIM7->CR1 |= 1;
+    TIM7->DIER |= 1;
+
+
+    return;
+}
 
 
 // Function to write a 16-bit word to the LCD in the correct order
@@ -80,10 +109,10 @@ void LEDs_Write(uint16_t data)
     // PD5 to high to freeze data
     GPIOD->ODR |= (1 << 5);
     // short delay (maybe a little to long)
-    u_delay(1);
+    u_delay(1000);
     // PD5 to low + then high to save data
     GPIOD->ODR &= ~(1 << 5);
-    u_delay(1);
+    u_delay(1000);
     GPIOD->ODR |= (1 << 5);
 
     // PD7 to high to deactivate external hardware
@@ -108,41 +137,68 @@ void Run_LEDs(void)
 }
 
 
-void u_delay(uint32_t secs) {
-	for (uint32_t x = 0; x < secs*3150000; x++);
+void wait_ms(uint16_t ms) {
+    uint32_t target = ms_counter + ms;
+
+    while (ms_counter < target) {}
+}
+
+void u_delay(uint32_t ms) {
+	for (uint32_t x = 0; x < ms*3150; x++);
 }
 
 
 int main(void)
 {
+    led_status = 1;
 	uint32_t i = 0;
 	
 	mcpr_SetSystemCoreClock();
 
     // initialize ports
-	LEDs_InitPorts();
+	//LEDs_InitPorts();
+
+
+    LCD_Init();
+    // clear display with color red
+    LCD_ClearDisplay(0xFE00);
 	
 	while( 1 ) {
+        if( (GPIOA->IDR & 1) != 0) {
+            ms_since_last_press = 0;
 
-        // mode switch between lauflicht and lcd
-        if( mode == run_mode) {
-            // Lauflicht von Bit 0 bis 15
-            Run_LEDs();
+            if (ms_led_counter >= 1000) {
+            ms_led_counter = 0;
+            led_status = 1 - led_status;
+          }
+
+        }
+        
+        
+        if (ms_since_last_press < 10000) {
+            uint32_t x = (ms_since_last_press / 1000);
+            snprintf(&disp_sec, sizeof(disp_sec), "%u", x);
+            LCD_WriteString(10, 10, 0xFFFF, 0x0000, &disp_sec);
+            led_status = LED_ON;
+        } 
+
+
+        // check led status and activate / deactivate LED
+        if (led_status == LED_ON) {
+            GPIOD->ODR |= 1<<12;
+        } else {
+            GPIOD->ODR &= 0xEFFF;
         }
 
-        else if ( mode == show_mode ) {
-            // 16bit display for LEDs
-            LEDs_Write(0xFFFF); // binary full on 16bit word
-        }
 
-		// test for button at A0 to activate LED D12 for 0.5s
-		if( (GPIOA->IDR & 1) != 0) { 
-            u_delay(1); 
-			GPIOD->ODR |= 1<<12;
-            u_delay(1); 
-		} else { 
-			GPIOD->ODR &= 0xEFFF; // ~(1<<12); 
-		}
+
+
+
+        wait_ms(50);
+        ms_since_last_press += 50;
+        ms_led_counter += 50;
+
+		
         
 	}
     return 0;

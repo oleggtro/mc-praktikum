@@ -1,4 +1,4 @@
-# CMSIS Build CMakeLists generated on 2024-04-03T15:26:11
+# CMSIS Build CMakeLists generated on 2024-04-10T16:40:27
 
 cmake_minimum_required(VERSION 3.22)
 
@@ -43,6 +43,10 @@ set(CC_SRC_FILES
   "/Users/oledonnermeyer/Documents/coding/mc-praktikum/main.c"
 )
 
+set(LIB_FILES
+  "/Users/oledonnermeyer/Documents/coding/mc-praktikum/display.o"
+)
+
 # Toolchain config map
 
 set(REGISTERED_TOOLCHAIN_ROOT "/Users/oledonnermeyer/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.22.0/bin")
@@ -81,6 +85,7 @@ add_executable(${TARGET} ${AS_ARM_SRC_FILES} ${CC_SRC_FILES})
 set_target_properties(${TARGET} PROPERTIES PREFIX "" SUFFIX ".axf" OUTPUT_NAME "MC_Praktikum")
 set_target_properties(${TARGET} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${OUT_DIR} LINK_DEPENDS ${LD_SCRIPT})
 target_include_directories(${TARGET} PUBLIC ${INC_PATHS})
+target_link_libraries(${TARGET} ${LIB_FILES})
 
 # Linker script pre-processing
 

@@ -4,7 +4,7 @@
             "path": "MC_Praktikum.csolution.yml",
             "target": "Simulation__Flash",
             "config": {
-                "run": "virtual-hardware.run: Run Program",
+                "run": "Flash Device",
                 "debug": "Arm Debugger"
             },
             "projects": [

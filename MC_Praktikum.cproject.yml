@@ -131,6 +131,7 @@ project:
       files:
         - file: main.c
         - file: _mcpr_stm32f407.c
+        - file: display.o
   components:
     - component: ARM::CMSIS:CORE
     - component: Keil::Device:Startup

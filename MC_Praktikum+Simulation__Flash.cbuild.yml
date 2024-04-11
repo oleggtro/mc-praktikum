@@ -103,6 +103,8 @@ build:
           category: sourceC
         - file: _mcpr_stm32f407.c
           category: sourceC
+        - file: display.o
+          category: object
   constructed-files:
     - file: RTE/_Simulation__Flash/RTE_Components.h
       category: header

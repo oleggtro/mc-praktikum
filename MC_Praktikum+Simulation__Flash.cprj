@@ -37,6 +37,7 @@
     <group name="C Sources">
       <file category="sourceC" name="main.c"/>
       <file category="sourceC" name="_mcpr_stm32f407.c"/>
+      <file category="object" name="display.o"/>
     </group>
   </files>
 </cprj>
