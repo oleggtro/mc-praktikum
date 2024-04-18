@@ -33,7 +33,15 @@ uint32_t ms_counter;
 uint32_t ms_since_last_press;
 uint16_t ms_led_counter;
 uint8_t led_status;
-char disp_sec[5];
+char str1[50];
+char str2[50];
+
+
+
+static volatile uint16_t last_capture = 0;
+static volatile uint8_t capture_flag = 0;
+static volatile uint64_t capture_time = 0;
+static volatile float freq = 0;
 
 
 
@@ -68,8 +76,62 @@ void TIM7_IRQHandler(void)
 }
 
 
+
+
+void TIM8_BRK_TIM12_IQR(){
+    if(TIM12->SR & 0x2) // check if capture/compare 1 interrupt is set
+    {
+        uint16_t recent_capture;
+        TIM12->SR &= ~0x2; // reset bit
+        recent_capture = TIM12->CCR1; // read reg
+        capture_time = recent_capture - last_capture; // calc capture timeframe
+        last_capture = recent_capture; // set capture reg to last read time
+        capture_flag = 1; // set capture flag
+    }
+}
+
 void Timer_init(void)
 {
+    // turn on TIM12
+    RCC->APB1ENR |= (1<<6);
+    //init tim12
+    // (page 50)
+    // 101: select TI1FP1 as input
+    // 111: use source as counter reference
+    //TIM12->SMCR |= ((101 << 4) |  111);
+    TIM12->CR1 |= 1;
+
+    // leave CC1NP and CC1P as they are (only count on raising voltage)
+
+
+
+
+
+    GPIOB->MODER &= ~(3UL << 2*14); // set PB14 input
+    GPIOB->MODER |= 2 << 2*14; // set PB14 alternate fn
+    GPIOB->AFR[1] |= 9 << (4 * (14-8)); // set alternate fn 9 for PB14  
+    
+    TIM12->SMCR = 0; // (MSM = 0): Slave mode control register ==> unused
+    TIM12->PSC = 0; // prescaler 0
+    TIM12->ARR = 0xFFFF; // CCMR1 for capture+compare
+    // set internal counter 1 to count on its own channel (1)
+    TIM12->CCMR1 = 1; // TI1 is input without filters etc
+    TIM12->CCER |= 1; // activate capture+compare + raising flank 
+    TIM12->DIER = 0x0003; // capture event (ch 1) und update event enable
+    TIM12->SR = 0; // del statusreg
+
+    TIM12->CR1 |= 1; // activate TIM12
+
+    //Ich denk so wie bei TIM7
+    NVIC_SetPriority(TIM8_BRK_TIM12_IRQn, 2); //Prio festlegen
+    NVIC_EnableIRQ(TIM8_BRK_TIM12_IRQn); // Enable Timer 12 Interrupt
+
+    // do we need to set CKD??
+    // CKD=00 fDTS = internal clock
+    // 01 half, 10 quarter, 11 not defined
+
+
+
     TIM7->CNT = 0;
     TIM7->PSC = 84-1;
     TIM7->ARR = 1000-1;
@@ -209,15 +271,25 @@ int main(void)
         }
         
         if (ms_since_last_press < 10000) {
+            // write time
             uint32_t x = (ms_since_last_press / 1000);
-            sprintf(&disp_sec, "%u", x);
-            LCD_WriteString(10, 10, 0xFFFF, 0x0000, &disp_sec);
+            sprintf(str1, "time: %u", x);
+            LCD_WriteString(10, 10, 0xFFFF, 0x0000, &str1);
+
+
+            if (capture_flag) {
+                freq = 84000000.0 / capture_time;
+              capture_flag = 0; // reset flag
+            }
+            //output freq
+            sprintf(str2, "freq: %.2f Hz", freq); 
+            LCD_WriteString( 10, 30, 0x7E00, 0x0000, str2); 
+
+
         } else {
 					LCD_ClearDisplay(0x0000);
 					GPIOD->ODR &= ~(1<<13); 
 				}
-
-
 
 
 				while(tmp + 50 > ms_counter){}
