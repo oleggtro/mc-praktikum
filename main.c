@@ -10,19 +10,43 @@ void LCD_Output16BitWord(uint16_t data);
 void LEDs_Write(uint16_t data);
 void Run_LEDs(void);
 void init_TIM4(void);
-void userbutton(void);
+void wait_ms(uint16_t ms);
+void TIM7_IRQHandler(void);
+void Timer_init(void);
 
+uint32_t ms_counter;
 const uint16_t delay = 50;
+int brightness = 100; //Helligkeit von 000 - 999 (ARR)
 
-
-void userbutton(void)
+void Timer_init(void)
 {
-	RCC->AHB1ENR |= (1u<<0);
-	//set userbutton input mode (default)
-	GPIOA->MODER &= ~(1u<<0) & ~(1u<<1);
-	GPIOA->ODR  ^= ()
-	
+    TIM7->CNT = 0;
+    TIM7->PSC = 84-1;
+    TIM7->ARR = 1000-1;
+    TIM7->CR1 |= 1;
+    TIM7->DIER |= 1;
+
+    
+        NVIC_SetPriority(TIM7_IRQn, 1);
+        NVIC_EnableIRQ(TIM7_IRQn);
+
+    return;
 }
+void TIM7_IRQHandler(void)
+{
+    
+    if(TIM7->SR & TIM_SR_UIF){
+        TIM7->SR &= ~TIM_SR_UIF;
+    }
+    ms_counter += 1;
+}
+
+void wait_ms(uint16_t ms) {
+    uint32_t target = ms_counter + ms;
+
+    while (ms_counter < target) {}
+}
+
 //init ports
 void LEDs_InitPorts(void)
 
@@ -135,8 +159,6 @@ void u_delay(uint32_t umil) {
 }*/
 void init_TIM4(void)
 {
-	int brightness = 100; //Helligkeit von 000 - 999 (ARR)
-
 	RCC->APB1ENR |= (1<<2);
 	TIM4->CCMR1 &= ~(1<<12) | (11<<13);
 	TIM4->CCER |= (1<<4);
@@ -152,6 +174,9 @@ void init_TIM4(void)
 int main(void)
 {
 	GPIOA->MODER |= (1u<<0);
+	//timer 7 enable
+	RCC->APB1ENR |= 1<<5;
+	
 	
 	uint32_t i = 0;
 	
@@ -164,17 +189,17 @@ int main(void)
 
     // initialize ports
 
-	if (TASTEGEDRÜCKT)
+	if( (GPIOA->IDR & 1) != 0)
 	{
-		while(TASTEGEDRÜCKT)
+		while( (GPIOA->IDR & 1) != 0)
 		{
-			TIM4->CCR2 = 999;
+			brightness = 999;
 		}
-		for (10SEKUNDEN){}
+		wait_ms(10000);
 		while (brightness > 100)
 		{
-			//Jeden zweiten Interrupt = 1s Dimmzeit
-			TIM4->CCR2 --;
+			wait_ms(1);
+			brightness --;
 			
 		}	
 	}
