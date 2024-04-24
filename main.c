@@ -29,10 +29,11 @@ uint8_t switch_int(int i);
 void TIM7_IRQHandler(void);
 
 
-uint32_t ms_counter;
-uint32_t ms_since_last_press;
-uint16_t ms_led_counter;
-uint8_t led_status;
+uint32_t ms_counter = 0;
+uint16_t counter1 = 0;
+uint32_t ticks = 0;
+uint16_t d_t_change = 0;
+uint16_t d_t = 0;
 char str1[50];
 char str2[50];
 
@@ -42,6 +43,8 @@ static volatile uint16_t last_capture = 0;
 static volatile uint8_t capture_flag = 0;
 static volatile uint64_t capture_time = 0;
 static volatile float freq = 0;
+
+
 
 
 
@@ -78,16 +81,19 @@ void TIM7_IRQHandler(void)
 
 
 
-void TIM8_BRK_TIM12_IQR(){
-    if(TIM12->SR & 0x2) // check if capture/compare 1 interrupt is set
-    {
-        uint16_t recent_capture;
-        TIM12->SR &= ~0x2; // reset bit
-        recent_capture = TIM12->CCR1; // read reg
-        capture_time = recent_capture - last_capture; // calc capture timeframe
-        last_capture = recent_capture; // set capture reg to last read time
-        capture_flag = 1; // set capture flag
-    }
+void TIM8_BRK_TIM12_IRQHandler(void){
+	// falls nicht gecaptured wird, prüfen ob Channel 1 getriggert wird TIM12->SR & TIM_SR_CC1IF
+	if (TIM12->SR & TIM_SR_CC1IF){
+		TIM12->SR &= 0;  // Capture-Interrupt Flag zur¸cksetzen
+		uint16_t tc2;
+		tc2 = TIM12->CCR1;
+		d_t = tc2 - counter1;  // d_t gibt die Takte zwischen 2 Flanken an
+		counter1 = tc2;
+		ticks = d_t;
+		d_t_change = 1;
+	}
+	// ticks += d_t;
+	
 }
 
 void Timer_init(void)
@@ -107,17 +113,17 @@ void Timer_init(void)
 
 
 
-    GPIOB->MODER &= ~(3UL << 2*14); // set PB14 input
-    GPIOB->MODER |= 2 << 2*14; // set PB14 alternate fn
-    GPIOB->AFR[1] |= 9 << (4 * (14-8)); // set alternate fn 9 for PB14  
+    GPIOB->AFR[1] |= 0x09000000;  // set PB14 input
+    GPIOB->MODER |= (1<<29); // set PB14 alternate fn
+    //GPIOB->AFR[1] |= 9 << (4 * (14-8)); // set alternate fn 9 for PB14  
     
     TIM12->SMCR = 0; // (MSM = 0): Slave mode control register ==> unused
     TIM12->PSC = 0; // prescaler 0
     TIM12->ARR = 0xFFFF; // CCMR1 for capture+compare
     // set internal counter 1 to count on its own channel (1)
-    TIM12->CCMR1 = 1; // TI1 is input without filters etc
-    TIM12->CCER |= 1; // activate capture+compare + raising flank 
-    TIM12->DIER = 0x0003; // capture event (ch 1) und update event enable
+    TIM12->CCMR1 |= 1; // TI1 is input without filters etc
+    TIM12->CCER |= 0x01; // activate capture+compare + raising flank 
+    TIM12->DIER |= 2; // capture event (ch 1) und update event enable
     TIM12->SR = 0; // del statusreg
 
     TIM12->CR1 |= 1; // activate TIM12
@@ -132,6 +138,9 @@ void Timer_init(void)
 
 
 
+
+/* timer 7
+
     TIM7->CNT = 0;
     TIM7->PSC = 84-1;
     TIM7->ARR = 1000-1;
@@ -141,7 +150,7 @@ void Timer_init(void)
 	
 		NVIC_SetPriority(TIM7_IRQn, 1);
 		NVIC_EnableIRQ(TIM7_IRQn);
-
+*/
     return;
 }
 
@@ -232,73 +241,33 @@ uint8_t switch_int(int i) {
 
 int main(void)
 {
-		ms_since_last_press = 12000;
-		ms_led_counter = 0;
-		led_status = LED_OFF;
-		uint32_t i = 0;
+	// LCD variables
+	char fq[32];
+	char ts[32];
 	
-		mcpr_SetSystemCoreClock();
+	// inits
+	mcpr_SetSystemCoreClock();
+	Timer_init();
+  	LCD_Init();
+	GPIOD->ODR= ~(1<<13);
+  	LCD_ClearDisplay (0xFE00);
 
-    // initialize ports
-		LEDs_InitPorts();
-		Timer_init();
+	//turn lcd on
+	GPIOD->ODR |= 0x2000;
 
-    LCD_Init();
-    // clear display with color red
-    LCD_ClearDisplay(0xFE00);
 	
-	uint32_t tmp = ms_counter;
-	while( 1 ) {
-		
-		// check led status and activate / deactivate LED
-        
-				
-        if( (GPIOA->IDR & 1) != 0) {
-					// turn on display		
-					GPIOD->ODR |= 1<<13;
-            ms_since_last_press = 0;
-					
-					if (ms_led_counter >= 500) {
-						ms_led_counter = 0;
-						led_status = switch_int(led_status);
-					}
-        }
-				
-        if (led_status == LED_ON) {
-            GPIOD->ODR |= 1<<12;
-        } else {
-            GPIOD->ODR &= ~(1<<12);
-        }
-        
-        if (ms_since_last_press < 10000) {
-            // write time
-            uint32_t x = (ms_since_last_press / 1000);
-            sprintf(str1, "time: %u", x);
-            LCD_WriteString(10, 10, 0xFFFF, 0x0000, &str1);
-
-
-            if (capture_flag) {
-                freq = 84000000.0 / capture_time;
-              capture_flag = 0; // reset flag
-            }
-            //output freq
-            sprintf(str2, "freq: %.2f Hz", freq); 
-            LCD_WriteString( 10, 30, 0x7E00, 0x0000, str2); 
-
-
-        } else {
-					LCD_ClearDisplay(0x0000);
-					GPIOD->ODR &= ~(1<<13); 
-				}
-
-
-				while(tmp + 50 > ms_counter){}
-					tmp+=50;
-        ms_since_last_press = ms_since_last_press + 50;
-        ms_led_counter = ms_led_counter + 50;
-
-		
-        
+	while(1){
+	   if (d_t != 0 && d_t_change) {   // Vermeidung Null Division // Pr¸fung ob deltat sich ge‰ndert hat
+		   freq = 84000000 / d_t;  // 84MHz durch die Anzahl der Takte
+			 d_t_change = 0;
+     }
+			 // LCD printing
+		 sprintf(fq, "freq: %u Hz", freq);
+		 sprintf(ts, "Ticks: %u", ticks);
+		 // gibt die aktuellen Ticks sowie Frequenz auf dem Bildschirm aus
+		 //LCD_WriteString( 10, 10, 0xFFFF, 0x0000, ts + fq);
+		 LCD_WriteString(10, 10, 0xFFFF, 0x0000, fq);
+		 LCD_WriteString(10, 30, 0xFFFF, 0x0000, ts);
+		  
 	}
-    return 0;
 }
