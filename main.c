@@ -9,11 +9,20 @@ void LEDs_InitPorts(void);
 void LCD_Output16BitWord(uint16_t data);
 void LEDs_Write(uint16_t data);
 void Run_LEDs(void);
-
+void init_TIM4(void);
+void userbutton(void);
 
 const uint16_t delay = 50;
 
 
+void userbutton(void)
+{
+	RCC->AHB1ENR |= (1u<<0);
+	//set userbutton input mode (default)
+	GPIOA->MODER &= ~(1u<<0) & ~(1u<<1);
+	GPIOA->ODR  ^= ()
+	
+}
 //init ports
 void LEDs_InitPorts(void)
 
@@ -107,14 +116,71 @@ void u_delay(uint32_t umil) {
 }
 
 
+/*void TIM8_BRK_TIM12_IRQHandler()
+{
+	uint16_t t2 = TIM12->CCR1;
+	uint16_t anzTakte = t2 - t;
+	uint16_t Hz = 1/(anzTake/20000000);
+	LCD_ClearDisplay(0x0000);
+	
+	LCD_WriteString(100, 10, 0xFFFF, 0x0000, "Takte");
+	LCD_WriteString(100, 30, 0xFFFF, 0x0000, "Hertz");
+
+	sprintf(ts, "%u", anzTakte);
+	LCD_WriteString(100, 10, 0xFFFF, 0x0000, ts);
+	sprintf(ts, "%u", Hz);
+	LCD_WriteString(100, 30, 0xFFFF, 0x0000, ts);
+
+	t = t2;
+}*/
+void init_TIM4(void)
+{
+	int brightness = 100; //Helligkeit von 000 - 999 (ARR)
+
+	RCC->APB1ENR |= (1<<2);
+	TIM4->CCMR1 &= ~(1<<12) | (11<<13);
+	TIM4->CCER |= (1<<4);
+	TIM4->CNT = 0;
+	TIM4->PSC = 419;	//200Hz
+	TIM4->ARR = 999;
+	TIM4->CCR2 = brightness; //10% Helligkeit
+	TIM4->CR1 |= 1;
+	
+	return;
+	}
+
 int main(void)
 {
+	GPIOA->MODER |= (1u<<0);
+	
 	uint32_t i = 0;
 	
 	mcpr_SetSystemCoreClock();
+	
+	// init Alternate Function
+	
+	GPIOD->MODER |= (1<<27);
+	GPIOD->AFR[1] |= (2<<20); 
 
     // initialize ports
-	LEDs_InitPorts();
+
+	if (TASTEGEDRÜCKT)
+	{
+		while(TASTEGEDRÜCKT)
+		{
+			TIM4->CCR2 = 999;
+		}
+		for (10SEKUNDEN){}
+		while (brightness > 100)
+		{
+			//Jeden zweiten Interrupt = 1s Dimmzeit
+			TIM4->CCR2 --;
+			
+		}	
+	}
+		
+	
+	/*	LEDs_InitPorts();
 	
 	while( 1 ) {
 		
@@ -127,6 +193,6 @@ int main(void)
 		}
 		//u_delay(50);
         
-	}
+	}*/
     return 0;
 }
