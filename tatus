@@ -1,0 +1,89 @@
+[33mcommit 6609086bbf026026424fccfbe5866538dcb04f70[m[33m ([m[1;36mHEAD -> [m[1;32mfreq_t[m[33m, [m[1;31morigin/freq_t[m[33m)[m
+Author: old0847 <old0847@thi.de>
+Date:   Thu Apr 25 11:45:53 2024 +0200
+
+    f
+
+[33mcommit ddd5a1e174d7c154a3fee1099145c5f4fbef0a86[m
+Author: Ole <ole@oleggtro.com>
+Date:   Thu Apr 25 11:38:16 2024 +0200
+
+    freq t
+
+[33mcommit 96635e3bb3aa318034d58d59485e1034dba0ae26[m[33m ([m[1;31morigin/freq[m[33m, [m[1;32mfreq[m[33m)[m
+Author: Ole <ole@oleggtro.com>
+Date:   Thu Apr 25 10:39:26 2024 +0200
+
+    freq adj
+
+[33mcommit 6736ffedad97e20bb5371a2c4d0ea7a63a7e6378[m
+Author: Ole <ole@oleggtro.com>
+Date:   Wed Apr 24 21:24:40 2024 +0200
+
+    freq should be working
+
+[33mcommit b5d5f716d5cbc1929473af14b38ddf4355e0df20[m
+Author: Ole <ole@oleggtro.com>
+Date:   Thu Apr 18 11:21:06 2024 +0200
+
+    freq
+
+[33mcommit 21004135177251a00da8f21f93fbf0a1b700437e[m[33m ([m[1;31morigin/timer[m[33m)[m
+Author: old0847 <old0847@thi.de>
+Date:   Thu Apr 11 13:29:15 2024 +0200
+
+    funktionert ez
+
+[33mcommit 7b52a609c58c467a68e7ed3695e721c47329dab7[m
+Author: Ole <ole@oleggtro.com>
+Date:   Thu Apr 11 10:46:15 2024 +0200
+
+    timer, aber diesmal wirklich
+
+[33mcommit f543cc81ea9fbcf4c0d35a8a346bd4b953a26bd5[m
+Author: Ole <ole@oleggtro.com>
+Date:   Wed Apr 10 17:39:48 2024 +0200
+
+    timer stuff
+
+[33mcommit 39029004c3c329362130ce46d9e3859624eed2ee[m
+Author: Ole <ole@oleggtro.com>
+Date:   Wed Apr 3 16:34:38 2024 +0200
+
+    led lauflicht
+
+[33mcommit a163a917fc14d395040b6c805bc5e3cca1c09d57[m
+Author: old0847 <old0847@thi.de>
+Date:   Thu Mar 21 13:04:44 2024 +0100
+
+    correct timing
+
+[33mcommit 1bb64f34f4435afdb995ac19501088f4aa06a48d[m
+Author: old0847 <old0847@thi.de>
+Date:   Thu Mar 21 12:55:18 2024 +0100
+
+    frequenz gefunden
+
+[33mcommit 0ca0587b74e48963c05f18383c75c32c7cbe1595[m
+Author: old0847 <old0847@thi.de>
+Date:   Thu Mar 21 12:49:11 2024 +0100
+
+    green blinking on button press
+
+[33mcommit 8bcb1ca307090397b526f6abe032c6185baa8ce1[m
+Author: old0847 <old0847@thi.de>
+Date:   Thu Mar 21 12:42:18 2024 +0100
+
+    green blinking
+
+[33mcommit 640de8e712c71c76daba96e8f4d5a33f901da9a2[m
+Author: old0847 <old0847@thi.de>
+Date:   Thu Mar 21 12:19:35 2024 +0100
+
+    green led
+
+[33mcommit a73a7d9f40722d775d70381cd2fc1db8b82664cc[m
+Author: old0847 <old0847@thi.de>
+Date:   Thu Mar 21 11:56:54 2024 +0100
+
+    init
