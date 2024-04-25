@@ -14,13 +14,13 @@ uint32_t frequency = 0;
 
 
 void LCD_Output16BitWord(uint16_t data){
-    // LED 0/1 lˆschen
-    GPIOD->ODR &= ~(0xC000); //freimachen
+  
+    GPIOD->ODR &= ~(0xC000); //clear
     GPIOD->ODR |= (data<<14); // add
 
     // LED 2/3
     GPIOD->ODR &= ~(0x0003);
-    GPIOD->ODR |= (data>> 2)& ~(0xFFFC); // 0x003 ist das komplement‰r von 0xFFFC
+    GPIOD->ODR |= (data>> 2)& ~(0xFFFC); 
 
     //LED 4-12
     GPIOE->ODR &= ~(0xFF80);
@@ -36,10 +36,10 @@ void LCD_Output16BitWord(uint16_t data){
 void TIM8_BRK_TIM12_IRQHandler(void){
 	// falls nicht gecaptured wird, pr¸fen ob Channel 1 getriggert wird TIM12->SR & TIM_SR_CC1IF
 	if (TIM12->SR & TIM_SR_CC1IF){
-		TIM12->SR &= 0;  // Capture-Interrupt Flag zur¸cksetzen
+		TIM12->SR &= 0;  // Capture-Interrupt Flag reset
 		uint16_t tc2;
 		tc2 = TIM12->CCR1;
-		deltat = tc2 - tc1;  // deltat gibt die Takte zwischen 2 Flanken an
+		deltat = tc2 - tc1;  // deltat = 2 flanks
 		tc1 = tc2;
 		ticks = deltat;
 		deltatchange = 1;
@@ -55,22 +55,22 @@ void GPIO_Init(void){
 }
 
 void TIM12_Init(void){
-	RCC->APB1ENR |= (1 << 6);   // Timer 12 aktivieren
+	RCC->APB1ENR |= (1 << 6);   
 	
-	TIM12->PSC = 0;  // kein Prescaler
-	TIM12->ARR = 0xFFFF;  // maximaler Wert 65535
+	TIM12->PSC = 0;  
+	TIM12->ARR = 0xFFFF;  
 	TIM12->SMCR = 0;
-	TIM12->CCMR1 |= 1;  // Capture bei jeder Flanke
-	TIM12->CCER |= 0x01;  // Capture enabled und CC1P & CC1NP auf 0 gesetzt f¸r steigende flanke
-	TIM12->DIER |= 2;  // Timer anschalten
-	TIM12->CR1 |= 1;  // Timer starten
+	TIM12->CCMR1 |= 1;  
+	TIM12->CCER |= 0x01;  
+	TIM12->DIER |= 2;  
+	TIM12->CR1 |= 1;  
 	
 	NVIC_EnableIRQ(TIM8_BRK_TIM12_IRQn);
 	NVIC_SetPriority(TIM8_BRK_TIM12_IRQn, 2);
 }
 
 void LCD_ON(void){
-		GPIOD->ODR |= 0x2000;  // Setze PD13 auf 1
+		GPIOD->ODR |= 0x2000;  // set PD13 to 1
 }
 
 int main(void)
@@ -90,15 +90,13 @@ int main(void)
 
 	
 	while(1){
-	   if (deltat != 0 && deltatchange) {   // Vermeidung Null Division // Pr¸fung ob deltat sich ge‰ndert hat
-		   frequency = 84000000 / deltat;  // 84MHz durch die Anzahl der Takte
+	   if (deltat != 0 && deltatchange) {   //no div by 0
+		   frequency = 84000000 / deltat;  
 			 deltatchange = 0;
      }
-			 // LCD printing
-		 sprintf(fq, "Frequency: %u Hz", frequency);
-		 sprintf(ts, "Ticks: %u", ticks);
-		 // gibt die aktuellen Ticks sowie Frequenz auf dem Bildschirm aus
-		 //LCD_WriteString( 10, 10, 0xFFFF, 0x0000, ts + fq);
+			
+		 sprintf(fq, "f: %u Hz", frequency);
+		 sprintf(ts, "ticks: %u", ticks);
 		 LCD_WriteString(10, 10, 0xFFFF, 0x0000, fq);
 		 LCD_WriteString(10, 30, 0xFFFF, 0x0000, ts);
 		  

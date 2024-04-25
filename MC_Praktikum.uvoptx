@@ -349,18 +349,34 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>223</LineNumber>
+          <LineNumber>2024</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>536877614</Address>
+          <Address>6</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\main.c</Filename>
+          <Filename>C:\bin\Arm\CMSIS\5.9.0\CMSIS\Core\Include\core_cm4.h</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\MCPraktikum\main.c\223</Expression>
+          <Expression>\\MCPraktikum\core_cm4.h\2024</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>72</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>.\_mcpr_stm32f407.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
