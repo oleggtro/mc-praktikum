@@ -241,9 +241,6 @@ uint8_t switch_int(int i) {
 
 int main(void)
 {
-	// LCD variables
-	char fq[32];
-	char ts[32];
 	
 	// inits
 	mcpr_SetSystemCoreClock();
@@ -257,17 +254,17 @@ int main(void)
 
 	
 	while(1){
-	   if (d_t != 0 && d_t_change) {   // Vermeidung Null Division // Pr¸fung ob deltat sich ge‰ndert hat
-		   freq = 84000000 / d_t;  // 84MHz durch die Anzahl der Takte
+	   if (d_t != 0 && d_t_change) {   // dont div by 0
+		   freq = 84000000 / d_t;  
 			 d_t_change = 0;
      }
 			 // LCD printing
-		 sprintf(fq, "freq: %u Hz", freq);
-		 sprintf(ts, "Ticks: %u", ticks);
+		 sprintf(str1, "f: %u Hz", freq);
+		 sprintf(str2, "ticks: %u", ticks);
 		 // gibt die aktuellen Ticks sowie Frequenz auf dem Bildschirm aus
 		 //LCD_WriteString( 10, 10, 0xFFFF, 0x0000, ts + fq);
-		 LCD_WriteString(10, 10, 0xFFFF, 0x0000, fq);
-		 LCD_WriteString(10, 30, 0xFFFF, 0x0000, ts);
+		 LCD_WriteString(10, 10, 0xFFFF, 0x0000, str1);
+		 LCD_WriteString(10, 30, 0xFFFF, 0x0000, str2);
 		  
 	}
 }
