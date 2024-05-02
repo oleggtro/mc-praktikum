@@ -1,6 +1,7 @@
 #include "_mcpr_stm32f407.h"
 #include "stm32f4xx.h"
 #include <inttypes.h>
+#include <stdint.h>
 
 // Forward declaration
 void u_delay(uint32_t umil);
@@ -15,13 +16,16 @@ void Timer_init(void);
 
 uint32_t ms_counter = 0;
 const uint16_t delay = 50;
-int brightness = 100; // Helligkeit von 000 - 999 (ARR)
+uint32_t brightness = 100; // Helligkeit von 000 - 999 (ARR)
 
 static volatile float frequency = 0;
 static volatile uint32_t capture_zeitraum = 0;
 static volatile uint8_t display_out = 0;
 static volatile uint8_t capture_flag = 0;
 static volatile uint8_t brightness_flag = 0;
+static volatile uint8_t button_pressed = 0;
+static volatile uint32_t button_pressed_time = 0;
+static volatile uint8_t user_button = 0;
 
 
 void Timer_init(void) {
@@ -44,6 +48,16 @@ void TIM7_IRQHandler(void) {
   /*if(TIM7->SR & TIM_SR_UIF){
       TIM7->SR &= ~TIM_SR_UIF;
   }*/
+  
+  if (button_pressed && (button_pressed_time >= 10000)) {
+            button_pressed = 0;
+            button_pressed_time = 0;
+            brightness_flag = 0;
+        }
+        else if (button_pressed) {
+            button_pressed_time++;
+            brightness_flag = 1;
+        }
   ms_counter += 1;
 }
 
@@ -119,17 +133,12 @@ int main(void) {
 
   // initialize ports{[
   while (1) {
-    if ((GPIOA->IDR & 1) != 0) {
-      while ((GPIOA->IDR & 1) != 0) {
-        TIM4->CCR2 = 999;
-      }
-      wait_ms(10000);
-
-      while (TIM4->CCR2 > 100) {
-        wait_ms(1);
-        TIM4->CCR2--;
-      }
-    }
+    if( (GPIOA->IDR & 1) != 0) { 
+            user_button = 1;
+            button_pressed = 1;
+        } else {
+            user_button = 0;
+        }
 
     // Frequenz berechnen und auf dem Display anzeigen
     if (capture_flag) {
