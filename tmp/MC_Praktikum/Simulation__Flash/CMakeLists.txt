@@ -1,4 +1,4 @@
-# CMSIS Build CMakeLists generated on 2024-04-10T16:40:27
+# CMSIS Build CMakeLists generated on 2024-07-21T20:26:22
 
 cmake_minimum_required(VERSION 3.22)
 
@@ -6,9 +6,9 @@ cmake_minimum_required(VERSION 3.22)
 
 set(TARGET MC_Praktikum)
 set(CPU Cortex-M4)
-set(PRJ_DIR "/Users/oledonnermeyer/Documents/coding/mc-praktikum")
-set(OUT_DIR "/Users/oledonnermeyer/Documents/coding/mc-praktikum/out/MC_Praktikum/Simulation__Flash")
-set(INT_DIR "/Users/oledonnermeyer/Documents/coding/mc-praktikum/tmp/MC_Praktikum/Simulation__Flash")
+set(PRJ_DIR "/Users/oledonnermeyer/Documents/coding/uni/mc-praktikum")
+set(OUT_DIR "/Users/oledonnermeyer/Documents/coding/uni/mc-praktikum/out/MC_Praktikum/Simulation__Flash")
+set(INT_DIR "/Users/oledonnermeyer/Documents/coding/uni/mc-praktikum/tmp/MC_Praktikum/Simulation__Flash")
 set(FPU SP_FPU)
 set(BYTE_ORDER Little-endian)
 set(OPTIMIZE none)
@@ -17,9 +17,9 @@ set(AS_FLAGS_GLOBAL "-masm=auto")
 set(CC_FLAGS_GLOBAL "-std=c99 -fno-rtti -funsigned-char -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality")
 set(CXX_FLAGS_GLOBAL "-xc++ -std=c++11 -fno-rtti -funsigned-char -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality")
 set(LD_FLAGS_GLOBAL "--map --load_addr_map_info --xref --callgraph --symbols --info sizes --info totals --info unused --info veneers --strict --summary_stderr --info summarysizes")
-set(LD_SCRIPT "/Users/oledonnermeyer/Documents/coding/mc-praktikum/RTE/Device/STM32F407VGTx/ac6_linker_script.sct.src")
-set(LD_REGIONS "/Users/oledonnermeyer/Documents/coding/mc-praktikum/RTE/Device/STM32F407VGTx/regions_STM32F407VGTx.h")
-set(LD_SCRIPT_PP "/Users/oledonnermeyer/Documents/coding/mc-praktikum/tmp/MC_Praktikum/Simulation__Flash/ac6_linker_script.sct")
+set(LD_SCRIPT "/Users/oledonnermeyer/Documents/coding/uni/mc-praktikum/RTE/Device/STM32F407VGTx/ac6_linker_script.sct.src")
+set(LD_REGIONS "/Users/oledonnermeyer/Documents/coding/uni/mc-praktikum/RTE/Device/STM32F407VGTx/regions_STM32F407VGTx.h")
+set(LD_SCRIPT_PP "/Users/oledonnermeyer/Documents/coding/uni/mc-praktikum/tmp/MC_Praktikum/Simulation__Flash/ac6_linker_script.sct")
 
 set(DEFINES
   STM32F407xx
@@ -28,23 +28,23 @@ set(DEFINES
 )
 
 set(INC_PATHS
-  "/Users/oledonnermeyer/Documents/coding/mc-praktikum/RTE/_Simulation__Flash"
+  "/Users/oledonnermeyer/Documents/coding/uni/mc-praktikum/RTE/_Simulation__Flash"
   "/Users/oledonnermeyer/.cache/arm/packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include"
   "/Users/oledonnermeyer/.cache/arm/packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include"
 )
 
 set(AS_ARM_SRC_FILES
-  "/Users/oledonnermeyer/Documents/coding/mc-praktikum/RTE/Device/STM32F407VGTx/startup_stm32f407xx.s"
+  "/Users/oledonnermeyer/Documents/coding/uni/mc-praktikum/RTE/Device/STM32F407VGTx/startup_stm32f407xx.s"
 )
 
 set(CC_SRC_FILES
-  "/Users/oledonnermeyer/Documents/coding/mc-praktikum/RTE/Device/STM32F407VGTx/system_stm32f4xx.c"
-  "/Users/oledonnermeyer/Documents/coding/mc-praktikum/_mcpr_stm32f407.c"
-  "/Users/oledonnermeyer/Documents/coding/mc-praktikum/main.c"
+  "/Users/oledonnermeyer/Documents/coding/uni/mc-praktikum/RTE/Device/STM32F407VGTx/system_stm32f4xx.c"
+  "/Users/oledonnermeyer/Documents/coding/uni/mc-praktikum/_mcpr_stm32f407.c"
+  "/Users/oledonnermeyer/Documents/coding/uni/mc-praktikum/main.c"
 )
 
 set(LIB_FILES
-  "/Users/oledonnermeyer/Documents/coding/mc-praktikum/display.o"
+  "/Users/oledonnermeyer/Documents/coding/uni/mc-praktikum/display.o"
 )
 
 # Toolchain config map
